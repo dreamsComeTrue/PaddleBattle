@@ -10,4 +10,7 @@ UCLASS()
 class PADDLEBATTLE_API APaddleBattleGameModeBase : public AGameModeBase
 {
     GENERATED_BODY()
+
+public:
+    APaddleBattleGameModeBase(const FObjectInitializer &ObjectInitializer);
 };
