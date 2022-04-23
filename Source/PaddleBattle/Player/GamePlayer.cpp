@@ -10,8 +10,6 @@ AGamePlayer::AGamePlayer()
 
     CreateCamera();
     CreateBounds();
-    CreateLeftPaddle();
-    CreateRightPaddle();
 
     PrimaryActorTick.bCanEverTick = true;
 }
@@ -39,29 +37,36 @@ void AGamePlayer::CreateBounds()
 
 void AGamePlayer::CreateLeftPaddle()
 {
-    LeftPaddleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftPaddle"));
-    LeftPaddleMesh->SetRelativeLocation(FVector(0.0f, -600.0f, 0.0f));
-    LeftPaddleMesh->SetupAttachment(PaddleAnchor);
+    FVector Location = GetActorLocation() + FVector(0.0f, -600.0f, 0.0f);
+    FRotator Rotation = GetActorRotation();
 
-    LeftPaddleMesh->SetGenerateOverlapEvents(true);
-    LeftPaddleMesh->OnComponentBeginOverlap.AddDynamic(this, &AGamePlayer::OnPaddleOverlapBegin);
-    LeftPaddleMesh->OnComponentEndOverlap.AddDynamic(this, &AGamePlayer::OnPaddleOverlapEnd);
+    FActorSpawnParameters SpawnInfo;
+    SpawnInfo.Name = "LeftPaddle";
+    SpawnInfo.Owner = this;
+
+    LeftPaddle = GetWorld()->SpawnActor<APaddle>(LeftPaddleBP, Location, Rotation, SpawnInfo);
+    LeftPaddle->AttachToComponent(PaddleAnchor, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void AGamePlayer::CreateRightPaddle()
 {
-    RightPaddleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightPaddle"));
-    RightPaddleMesh->SetRelativeLocation(FVector(0.0f, 600.0f, 0.0f));
-    RightPaddleMesh->SetupAttachment(PaddleAnchor);
+    FVector Location = GetActorLocation() + FVector(0.0f, 600.0f, 0.0f);
+    FRotator Rotation = GetActorRotation();
 
-    RightPaddleMesh->SetGenerateOverlapEvents(true);
-    RightPaddleMesh->OnComponentBeginOverlap.AddDynamic(this, &AGamePlayer::OnPaddleOverlapBegin);
-    RightPaddleMesh->OnComponentEndOverlap.AddDynamic(this, &AGamePlayer::OnPaddleOverlapEnd);
+    FActorSpawnParameters SpawnInfo;
+    SpawnInfo.Name = "RightPaddle";
+    SpawnInfo.Owner = this;
+
+    RightPaddle = GetWorld()->SpawnActor<APaddle>(RightPaddleBP, Location, Rotation, SpawnInfo);
+    RightPaddle->AttachToComponent(PaddleAnchor, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void AGamePlayer::BeginPlay()
 {
     Super::BeginPlay();
+
+    CreateLeftPaddle();
+    CreateRightPaddle();
 }
 
 void AGamePlayer::Tick(float DeltaTime)
@@ -80,64 +85,22 @@ void AGamePlayer::SetupPlayerInputComponent(UInputComponent *PlayerInputComponen
     InputComponent->BindAxis("RightPaddleDown", this, &AGamePlayer::RightPaddleDown);
 }
 
-void AGamePlayer::OnPaddleOverlapBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor,
-                                       UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep,
-                                       const FHitResult &SweepResult)
-{
-}
-
-void AGamePlayer::OnPaddleOverlapEnd(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp,
-                                     int32 OtherBodyIndex)
-{
-}
-
 void AGamePlayer::LeftPaddleUp(float AxisValue)
 {
-    float Delta = MovementSpeed * AxisValue;
-
-    MovePaddleMesh(LeftPaddleMesh, Delta);
+    LeftPaddle->MovePaddleUp(MovementSpeed, AxisValue, TopBounds->GetRelativeLocation());
 }
 
 void AGamePlayer::LeftPaddleDown(float AxisValue)
 {
-    float Delta = -MovementSpeed * AxisValue;
-
-    MovePaddleMesh(LeftPaddleMesh, Delta);
+    LeftPaddle->MovePaddleDown(MovementSpeed, AxisValue, BottomBounds->GetRelativeLocation());
 }
 
 void AGamePlayer::RightPaddleUp(float AxisValue)
 {
-    float Delta = MovementSpeed * AxisValue;
-
-    MovePaddleMesh(RightPaddleMesh, Delta);
+    RightPaddle->MovePaddleUp(MovementSpeed, AxisValue, TopBounds->GetRelativeLocation());
 }
 
 void AGamePlayer::RightPaddleDown(float AxisValue)
 {
-    float Delta = -MovementSpeed * AxisValue;
-
-    MovePaddleMesh(RightPaddleMesh, Delta);
-}
-
-void AGamePlayer::MovePaddleMesh(UStaticMeshComponent *MeshComponent, float Delta)
-{
-    FVector Location = MeshComponent->GetRelativeLocation();
-    Location.X += Delta;
-
-    ClampPaddleLocation(Location);
-
-    MeshComponent->SetRelativeLocation(Location);
-}
-
-void AGamePlayer::ClampPaddleLocation(FVector &CurrentLocation)
-{
-    if (CurrentLocation.X > TopBounds->GetRelativeLocation().X)
-    {
-        CurrentLocation.X = TopBounds->GetRelativeLocation().X;
-    }
-
-    if (CurrentLocation.X < BottomBounds->GetRelativeLocation().X)
-    {
-        CurrentLocation.X = BottomBounds->GetRelativeLocation().X;
-    }
+    RightPaddle->MovePaddleDown(MovementSpeed, AxisValue, BottomBounds->GetRelativeLocation());
 }

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Paddle.h"
 #include "GamePlayer.generated.h"
 
 UCLASS()
@@ -24,11 +25,15 @@ public:
     UPROPERTY(VisibleDefaultsOnly, Category = "Bottom Bounds")
     class USceneComponent *BottomBounds;
 
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Left Paddle Mesh")
-    class UStaticMeshComponent *LeftPaddleMesh;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Left Paddle")
+    TSubclassOf<APaddle> LeftPaddleBP;
 
-    UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Right Paddle Mesh")
-    class UStaticMeshComponent *RightPaddleMesh;
+    APaddle *LeftPaddle;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Right Paddle")
+    TSubclassOf<APaddle> RightPaddleBP;
+
+    APaddle *RightPaddle;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Paddle Movement Speed")
     float MovementSpeed = 5.0f;
@@ -43,12 +48,6 @@ public:
 protected:
     virtual void BeginPlay() override;
 
-    UFUNCTION()
-    void OnPaddleOverlapBegin(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
-
-    UFUNCTION()
-    void OnPaddleOverlapEnd(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex);
-
 private:
     void CreateCamera();
     void CreateBounds();
@@ -59,7 +58,4 @@ private:
     void LeftPaddleDown(float AxisValue);
     void RightPaddleUp(float AxisValue);
     void RightPaddleDown(float AxisValue);
-
-    void MovePaddleMesh(UStaticMeshComponent *MeshComponent, float Delta);
-    void ClampPaddleLocation(FVector &CurrentLocation);
 };
