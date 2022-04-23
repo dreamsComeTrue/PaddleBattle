@@ -25,17 +25,22 @@ public:
     UPROPERTY(VisibleDefaultsOnly, Category = "Bottom Bounds")
     class USceneComponent *BottomBounds;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Left Paddle")
-    TSubclassOf<APaddle> LeftPaddleBP;
+    // UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Left Paddle")
+    // TSubclassOf<APaddle> LeftPaddleBP;
 
+    UPROPERTY(EditInstanceOnly, Category = "Right Paddle")
     APaddle *LeftPaddle;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Right Paddle")
-    TSubclassOf<APaddle> RightPaddleBP;
+    // UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Right Paddle")
+    // TSubclassOf<APaddle> RightPaddleBP;
 
+    UPROPERTY(EditInstanceOnly, Category = "Right Paddle")
     APaddle *RightPaddle;
 
-    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Paddle Movement Speed")
+    UPROPERTY(EditAnywhere, Category = "Paddles Distance")
+    float PaddlesDistance = 900.0f;
+
+    UPROPERTY(EditAnywhere, Category = "Paddle Movement Speed")
     float MovementSpeed = 5.0f;
 
 public:

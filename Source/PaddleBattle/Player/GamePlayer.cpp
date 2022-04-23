@@ -37,28 +37,37 @@ void AGamePlayer::CreateBounds()
 
 void AGamePlayer::CreateLeftPaddle()
 {
-    FVector Location = GetActorLocation() + FVector(0.0f, -600.0f, 0.0f);
-    FRotator Rotation = GetActorRotation();
+    FVector Location = PaddleAnchor->GetRelativeLocation() + FVector(0.0f, -PaddlesDistance, 0.0f);
+    // FRotator Rotation = GetActorRotation();
 
-    FActorSpawnParameters SpawnInfo;
-    SpawnInfo.Name = "LeftPaddle";
-    SpawnInfo.Owner = this;
+    // FActorSpawnParameters SpawnInfo;
+    // SpawnInfo.Name = "LeftPaddle";
+    // SpawnInfo.Owner = this;
 
-    LeftPaddle = GetWorld()->SpawnActor<APaddle>(LeftPaddleBP, Location, Rotation, SpawnInfo);
-    LeftPaddle->AttachToComponent(PaddleAnchor, FAttachmentTransformRules::KeepRelativeTransform);
+    //    LeftPaddle = GetWorld()->SpawnActor<APaddle>(LeftPaddleBP, Location, Rotation, SpawnInfo);
+    if (IsValid(LeftPaddle))
+    {
+        GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, "OK", false);
+        LeftPaddle->AttachToComponent(PaddleAnchor, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+        LeftPaddle->SetActorLocation(Location);
+    }
 }
 
 void AGamePlayer::CreateRightPaddle()
 {
-    FVector Location = GetActorLocation() + FVector(0.0f, 600.0f, 0.0f);
-    FRotator Rotation = GetActorRotation();
+    FVector Location = PaddleAnchor->GetRelativeLocation() + FVector(0.0f, PaddlesDistance, 0.0f);
+    // FRotator Rotation = GetActorRotation();
 
-    FActorSpawnParameters SpawnInfo;
-    SpawnInfo.Name = "RightPaddle";
-    SpawnInfo.Owner = this;
+    // FActorSpawnParameters SpawnInfo;
+    // SpawnInfo.Name = "RightPaddle";
+    // SpawnInfo.Owner = this;
 
-    RightPaddle = GetWorld()->SpawnActor<APaddle>(RightPaddleBP, Location, Rotation, SpawnInfo);
-    RightPaddle->AttachToComponent(PaddleAnchor, FAttachmentTransformRules::KeepRelativeTransform);
+    // RightPaddle = GetWorld()->SpawnActor<APaddle>(RightPaddleBP, Location, Rotation, SpawnInfo);
+    if (IsValid(RightPaddle))
+    {
+        RightPaddle->AttachToComponent(PaddleAnchor, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+        RightPaddle->SetActorLocation(Location);
+    }
 }
 
 void AGamePlayer::BeginPlay()
