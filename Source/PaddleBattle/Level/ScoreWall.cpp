@@ -1,17 +1,17 @@
-// Copyright AGADO Studio 2022
+// Copyright AGADO Studio 2022. All rights reserved
 
-#include "Components/BoxComponent.h"
 #include "ScoreWall.h"
+#include "Components/BoxComponent.h"
 
 AScoreWall::AScoreWall()
 {
-    Bounds = CreateDefaultSubobject<UBoxComponent>(TEXT("Bounds"));
-    RootComponent = Bounds;
+	Bounds = CreateDefaultSubobject<UBoxComponent>(TEXT("Bounds"));
+	RootComponent = Bounds;
 
-    Bounds->SetGenerateOverlapEvents(true);
+	Bounds->SetGenerateOverlapEvents(true);
 }
 
 void AScoreWall::BeginPlay()
 {
-    Super::BeginPlay();
+	Super::BeginPlay();
 }

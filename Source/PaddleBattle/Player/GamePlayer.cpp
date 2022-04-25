@@ -1,8 +1,8 @@
-// Copyright AGADO Studio 2022. All rights reserverd
+// Copyright AGADO Studio 2022. All rights reserved
 
+#include "GamePlayer.h"
 #include "Components/SceneComponent.h"
 #include "Camera/CameraComponent.h"
-#include "GamePlayer.h"
 
 AGamePlayer::AGamePlayer()
 {

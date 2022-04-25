@@ -1,4 +1,4 @@
-// Copyright AGADO Studio 2022
+// Copyright AGADO Studio 2022. All rights reserved
 
 #pragma once
 
@@ -6,21 +6,23 @@
 #include "GameFramework/Actor.h"
 #include "ScoreWall.generated.h"
 
+class UBoxComponent;
+
 UCLASS()
 class PADDLEBATTLE_API AScoreWall : public AActor
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Bounds")
-    class UBoxComponent *Bounds;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Bounds")
+	UBoxComponent* Bounds;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Score Player Index")
-    int PlayerIndex;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Score Player Index")
+	int PlayerIndex;
 
 public:
-    AScoreWall();
+	AScoreWall();
 
 protected:
-    virtual void BeginPlay() override;
+	virtual void BeginPlay() override;
 };

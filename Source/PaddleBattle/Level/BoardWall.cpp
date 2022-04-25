@@ -1,7 +1,7 @@
-// Copyright AGADO Studio 2022
+// Copyright AGADO Studio 2022. All rights reserved
 
-#include "Components/BoxComponent.h"
 #include "BoardWall.h"
+#include "Components/BoxComponent.h"
 
 ABoardWall::ABoardWall()
 {

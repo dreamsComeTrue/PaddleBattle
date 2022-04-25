@@ -1,4 +1,4 @@
-// Copyright AGADO Studio 2022
+// Copyright AGADO Studio 2022. All rights reserved
 
 #pragma once
 
@@ -6,18 +6,19 @@
 #include "GameFramework/Actor.h"
 #include "BoardWall.generated.h"
 
+class UBoxComponent;
 UCLASS()
 class PADDLEBATTLE_API ABoardWall : public AActor
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Bounds")
-    class UBoxComponent *Bounds;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Bounds")
+	UBoxComponent* Bounds;
 
 public:
-    ABoardWall();
+	ABoardWall();
 
 protected:
-    virtual void BeginPlay() override;
+	virtual void BeginPlay() override;
 };

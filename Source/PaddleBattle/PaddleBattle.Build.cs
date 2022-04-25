@@ -1,4 +1,4 @@
-// Copyright AGADO Studio 2022. All rights reserverd
+// Copyright AGADO Studio 2022. All rights reserved
 
 using UnrealBuildTool;
 
