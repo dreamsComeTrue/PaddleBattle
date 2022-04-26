@@ -1,16 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.27",
+	"EngineAssociation": "4.23",
 	"Category": "",
-	"Description": "",
-	"Modules": [
-		{
-			"Name": "PaddleBattle",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
-				"Engine"
-			]
-		}
-	]
+	"Description": ""
 }
